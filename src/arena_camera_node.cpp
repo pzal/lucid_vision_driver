@@ -102,7 +102,11 @@ CameraSetting ArenaCameraNode::read_camera_settings()
     declare_parameter<bool>("enable_compressing"),
     declare_parameter<bool>("use_default_device_settings"),
     declare_parameter<bool>("image_horizontal_flip"),
-    declare_parameter<bool>("image_vertical_flip")
+    declare_parameter<bool>("image_vertical_flip"),
+    declare_parameter<int64_t>("offsetX"),
+    declare_parameter<int64_t>("offsetY"),
+    declare_parameter<int64_t>("width"),
+    declare_parameter<int64_t>("height")
     );
 
   return camera_setting;

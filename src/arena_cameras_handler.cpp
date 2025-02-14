@@ -56,6 +56,9 @@ void ArenaCamerasHandler::create_camera_from_settings(CameraSetting & camera_set
       this->set_reverse_image_y(camera_settings.get_image_horizontal_flip());
       this->set_reverse_image_x(camera_settings.get_image_vertical_flip());
       this->set_target_brightness(camera_settings.set_target_brightness());
+      this->set_region_of_interest(
+        camera_settings.get_offsetX(), camera_settings.get_offsetY(),
+        camera_settings.get_width(), camera_settings.get_height());
     }
 
     m_cameras = new ArenaCamera(m_device, camera_settings);
@@ -243,6 +246,21 @@ void ArenaCamerasHandler::set_target_brightness(int64_t target_brightness)
   }
 
   Arena::SetNodeValue<int64_t>(m_device->GetNodeMap(), "TargetBrightness", target_brightness); 
+}
+
+void ArenaCamerasHandler::set_region_of_interest(int64_t offsetX, int64_t offsetY, int64_t width, int64_t height)
+{
+  if(m_use_default_device_settings){
+    RCLCPP_WARN(
+      rclcpp::get_logger("ARENA_CAMERA_HANDLER"),
+      "Not possible to set region of interest. Using default device settings.");
+    return;
+  }
+
+  Arena::SetNodeValue<int64_t>(m_device->GetNodeMap(), "OffsetX", offsetX);
+  Arena::SetNodeValue<int64_t>(m_device->GetNodeMap(), "OffsetY", offsetY);
+  Arena::SetNodeValue<int64_t>(m_device->GetNodeMap(), "Width", width);
+  Arena::SetNodeValue<int64_t>(m_device->GetNodeMap(), "Height", height);
 }
 
 void ArenaCamerasHandler::set_enable_rectifying(bool enable_rectifying)

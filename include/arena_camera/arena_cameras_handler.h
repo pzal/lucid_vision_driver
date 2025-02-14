@@ -56,6 +56,8 @@ public:
 
   void set_target_brightness(int64_t target_brightness);
 
+  void set_region_of_interest(int64_t offsetX, int64_t offsetY, int64_t width, int64_t height);
+
   void set_enable_rectifying(bool enable_rectifying);
 
   bool get_enable_rectifying();

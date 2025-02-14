@@ -28,7 +28,7 @@ public:
     uint32_t serial_no, uint32_t fps, uint32_t horizontal_binning, uint32_t vertical_binning,
     const std::string & url_camera_info, bool exposure_auto, float exposure_value, bool gain_auto,
     float gain_value, float gamma_value, int64_t target_brightness, bool enable_rectifying, bool enable_compressing, bool use_default_device_settings,
-    bool image_horizontal_flip, bool image_vertical_flip)
+    bool image_horizontal_flip, bool image_vertical_flip, int64_t offsetX, int64_t offsetY, int64_t width, int64_t height)
   : m_camera_name{camera_name},
     m_frame_id{frame_id},
     m_pixel_format{pixel_format},
@@ -47,7 +47,11 @@ public:
     m_enable_compressing{enable_compressing},
     m_use_default_device_settings{use_default_device_settings},
     m_image_horizontal_flip{image_horizontal_flip},
-    m_image_vertical_flip{image_vertical_flip}
+    m_image_vertical_flip{image_vertical_flip},
+    m_offsetX{offsetX},
+    m_offsetY{offsetY},
+    m_width{width},
+    m_height{height}
   {
     std::cout << "Camera readed from yaml file. Camera Name:" << m_camera_name
               << " Frame id:" << m_frame_id << " Serial no:" << m_serial_no
@@ -83,6 +87,18 @@ public:
 
   int64_t set_target_brightness() { return m_target_brightness; }
   void set_target_brightness(int64_t target_brightness) { m_target_brightness = target_brightness; }
+
+  int64_t get_offsetX() { return m_offsetX; }
+  void set_offsetX(int64_t offsetX) { m_offsetX = offsetX; }
+
+  int64_t get_offsetY() { return m_offsetY; }
+  void set_offsetY(int64_t offsetY) { m_offsetY = offsetY; }
+
+  int64_t get_width() { return m_width; }
+  void set_width(int64_t width) { m_width = width; }
+
+  int64_t get_height() { return m_height; }
+  void set_height(int64_t height) { m_height = height; }
 
   bool get_enable_rectifying() { return m_enable_rectifying; }
   void set_enable_rectifying(bool enable_rectifying)
@@ -127,6 +143,10 @@ private:
   float m_auto_gain_value;  // Only relevant if m_gain_auto_enable=true
   float m_gamma_value;
   int64_t m_target_brightness;
+  int64_t m_offsetX;
+  int64_t m_offsetY;
+  int64_t m_width;
+  int64_t m_height;
   bool m_enable_rectifying;
   bool m_enable_compressing;
   bool m_use_default_device_settings;
