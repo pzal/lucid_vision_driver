@@ -55,6 +55,7 @@ void ArenaCamerasHandler::create_camera_from_settings(CameraSetting & camera_set
       this->set_gamma_value(camera_settings.get_gamma_value());
       this->set_reverse_image_y(camera_settings.get_image_horizontal_flip());
       this->set_reverse_image_x(camera_settings.get_image_vertical_flip());
+      this->set_target_brightness(camera_settings.set_target_brightness());
     }
 
     m_cameras = new ArenaCamera(m_device, camera_settings);
@@ -225,6 +226,25 @@ void ArenaCamerasHandler::set_gamma_value(float gamma_value)
               << std::endl;
   }
 }
+
+void ArenaCamerasHandler::set_target_brightness(int64_t target_brightness)
+{
+  if(m_use_default_device_settings){
+    RCLCPP_WARN(
+      rclcpp::get_logger("ARENA_CAMERA_HANDLER"),
+      "Not possible to set target brightness. Using default device settings.");
+    return;
+  }
+
+  if (target_brightness < 0) {
+    target_brightness = 0;
+  } else if (target_brightness > 255) {
+    target_brightness = 255;
+  }
+
+  Arena::SetNodeValue<int64_t>(m_device->GetNodeMap(), "TargetBrightness", target_brightness); 
+}
+
 void ArenaCamerasHandler::set_enable_rectifying(bool enable_rectifying)
 {
   this->m_enable_rectifying = enable_rectifying;

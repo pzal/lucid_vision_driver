@@ -97,6 +97,7 @@ CameraSetting ArenaCameraNode::read_camera_settings()
     declare_parameter<bool>("gain_auto"),
     static_cast<float>(declare_parameter<int64_t>("gain_target", gain_descriptor)),
     declare_parameter<float>("gamma_target"),
+    declare_parameter<int64_t>("target_brightness"),
     declare_parameter<bool>("enable_rectifying"),
     declare_parameter<bool>("enable_compressing"),
     declare_parameter<bool>("use_default_device_settings"),
@@ -253,6 +254,14 @@ rcl_interfaces::msg::SetParametersResult ArenaCameraNode::parameters_callback(
     if (param.get_name() == "gamma_target") {
       if (param.get_type() == rclcpp::ParameterType::PARAMETER_DOUBLE) {
         m_arena_camera_handler->set_gamma_value(param.as_double());
+        result.successful = true;
+        print_status(param);
+      }
+    }
+
+    if (param.get_name() == "target_brightness") {
+      if (param.get_type() == rclcpp::ParameterType::PARAMETER_INTEGER) {
+        m_arena_camera_handler->set_target_brightness(param.as_int());
         result.successful = true;
         print_status(param);
       }

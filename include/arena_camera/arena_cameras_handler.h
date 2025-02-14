@@ -54,6 +54,8 @@ public:
 
   void set_gamma_value(float gamma_value);
 
+  void set_target_brightness(int64_t target_brightness);
+
   void set_enable_rectifying(bool enable_rectifying);
 
   bool get_enable_rectifying();
