@@ -38,8 +38,8 @@ ArenaCameraNode::ArenaCameraNode(rclcpp::NodeOptions node_options)
 
   init_camera_info(camera_settings.get_camera_name(), camera_settings.get_url_camera_info());
   m_publisher = this->create_publisher<sensor_msgs::msg::Image>(
-    create_camera_topic_name(camera_settings.get_camera_name()) + "/image",
-    rclcpp::SensorDataQoS());
+     create_camera_topic_name(camera_settings.get_camera_name()) + "/image_raw",
+     rclcpp::SensorDataQoS());
 
   if (camera_settings.get_enable_rectifying())
   {
