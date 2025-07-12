@@ -94,7 +94,7 @@ void ArenaCamera::acquisition()
     } else if (binning_y_to_set > pBinningVertical->GetMax()) {
       binning_y_to_set = pBinningVertical->GetMax();
     }
-    pBinningHorizontal->SetValue(binning_y_to_set);
+    pBinningVertical->SetValue(binning_y_to_set);
     m_reached_vertical_binning = pBinningVertical->GetValue();
     if (m_reached_vertical_binning != m_vertical_binning) {
       RCLCPP_INFO(
