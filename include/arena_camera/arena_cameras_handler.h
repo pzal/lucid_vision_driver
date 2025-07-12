@@ -74,6 +74,8 @@ public:
 
   void set_reverse_image_x(bool image_vertical_flip);
 
+  void set_image_rotations(int64_t image_rotations);
+
 private:
   ArenaCamera * m_cameras;
 

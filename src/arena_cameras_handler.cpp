@@ -62,6 +62,7 @@ void ArenaCamerasHandler::create_camera_from_settings(CameraSetting & camera_set
     }
 
     m_cameras = new ArenaCamera(m_device, camera_settings);
+    this->set_image_rotations(camera_settings.get_image_rotations());
     m_device->RegisterImageCallback(m_cameras);
 
   } else {
@@ -324,5 +325,12 @@ void ArenaCamerasHandler::set_reverse_image_x(bool image_vertical_flip)
   } catch (const GenICam::GenericException & e) {
     std::cerr << "Exception occurred during ReverseX value handling: " << e.GetDescription()
               << std::endl;
+  }
+}
+
+void ArenaCamerasHandler::set_image_rotations(int64_t image_rotations)
+{
+  if (m_cameras != nullptr) {
+    m_cameras->set_image_rotations(image_rotations);
   }
 }

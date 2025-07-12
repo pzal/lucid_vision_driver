@@ -26,7 +26,8 @@ ArenaCamera::ArenaCamera(Arena::IDevice * device, CameraSetting & camera_setting
   m_serial_no(camera_setting.get_serial_no()),
   m_fps(camera_setting.get_fps()),
   m_horizontal_binning(camera_setting.get_horizontal_binning()),
-  m_vertical_binning(camera_setting.get_vertical_binning())
+  m_vertical_binning(camera_setting.get_vertical_binning()),
+  m_image_rotations(camera_setting.get_image_rotations())
 {
   std::cout << "Camera:" << m_cam_idx << " is created." << std::endl;
 }
@@ -42,7 +43,8 @@ ArenaCamera::ArenaCamera(
   m_serial_no(serial_no),
   m_fps(fps),
   m_horizontal_binning(horizontal_binning),
-  m_vertical_binning(vertical_binning)
+  m_vertical_binning(vertical_binning),
+  m_image_rotations(0)
 {
   std::cout << "Camera:" << m_cam_idx << " is created." << std::endl;
 }
@@ -124,6 +126,11 @@ void ArenaCamera::set_on_image_callback(ImageCallbackFunction callback)
   m_signal_publish_image = std::move(callback);
 }
 
+void ArenaCamera::set_image_rotations(int64_t image_rotations)
+{
+  m_image_rotations = image_rotations;
+}
+
 cv::Mat ArenaCamera::convert_to_image(Arena::IImage * pImage, const std::string & frame_id)
 {
   cv::Mat image_cv =
@@ -141,6 +148,22 @@ cv::Mat ArenaCamera::convert_to_image(Arena::IImage * pImage, const std::string 
     cv::resize(
       image_bgr, image_bgr,
       cv::Size(image_bgr.cols / ext_horizontal_binning, image_bgr.rows / ext_vertical_binning));
+  }
+
+  if (m_image_rotations > 0) {
+    switch (m_image_rotations) {
+      case 1:
+        cv::rotate(image_bgr, image_bgr, cv::ROTATE_90_CLOCKWISE);
+        break;
+      case 2:
+        cv::rotate(image_bgr, image_bgr, cv::ROTATE_180);
+        break;
+      case 3:
+        cv::rotate(image_bgr, image_bgr, cv::ROTATE_90_COUNTERCLOCKWISE);
+        break;
+      default:
+        break;
+    }
   }
 
   return image_bgr;

@@ -28,7 +28,7 @@ public:
     uint32_t serial_no, uint32_t fps, uint32_t horizontal_binning, uint32_t vertical_binning,
     const std::string & url_camera_info, bool exposure_auto, float exposure_value, bool gain_auto,
     float gain_value, float gamma_value, int64_t target_brightness, bool enable_rectifying, bool enable_compressing, bool use_default_device_settings,
-    bool image_horizontal_flip, bool image_vertical_flip, int64_t offsetX, int64_t offsetY, int64_t width, int64_t height)
+    bool image_horizontal_flip, bool image_vertical_flip, int64_t image_rotations, int64_t offsetX, int64_t offsetY, int64_t width, int64_t height)
   : m_camera_name{camera_name},
     m_frame_id{frame_id},
     m_pixel_format{pixel_format},
@@ -48,6 +48,7 @@ public:
     m_use_default_device_settings{use_default_device_settings},
     m_image_horizontal_flip{image_horizontal_flip},
     m_image_vertical_flip{image_vertical_flip},
+    m_image_rotations{image_rotations},
     m_offsetX{offsetX},
     m_offsetY{offsetY},
     m_width{width},
@@ -127,6 +128,11 @@ public:
   {
     m_image_vertical_flip = image_vertical_flip;
   }
+  int64_t get_image_rotations() { return m_image_rotations; }
+  void set_image_rotations(int64_t image_rotations)
+  {
+    m_image_rotations = image_rotations;
+  }
 
 private:
   std::string m_url_camera_info;
@@ -152,6 +158,7 @@ private:
   bool m_use_default_device_settings;
   bool m_image_horizontal_flip;
   bool m_image_vertical_flip;
+  int64_t m_image_rotations;
 };
 
 #endif  // BUILD_CAMERA_SETTINGS_H

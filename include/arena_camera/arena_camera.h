@@ -59,6 +59,8 @@ public:
 
   void set_on_image_callback(ImageCallbackFunction callback);
 
+  void set_image_rotations(int64_t image_rotations);
+
   void OnImage(Arena::IImage * pImage)
   {
     m_signal_publish_image(m_cam_idx, convert_to_image(pImage, m_frame_id));
@@ -86,6 +88,8 @@ private:
   uint32_t m_reached_horizontal_binning;
 
   uint32_t m_reached_vertical_binning;
+
+  int64_t m_image_rotations;
 
   std::shared_future<void> future_;
 

@@ -22,6 +22,7 @@
     target_brightness: 70
     image_horizontal_flip: false
     image_vertical_flip: false
+    image_rotations: 0
     offsetX: 0
     offsetY: 0
     width: 2048

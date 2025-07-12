@@ -73,6 +73,7 @@ def generate_launch_description():
                              "enable_rectifying": camera_yaml_param['enable_rectifying'],
                              "image_horizontal_flip": camera_yaml_param['image_horizontal_flip'],
                              "image_vertical_flip": camera_yaml_param['image_vertical_flip'],
+                             "image_rotations": camera_yaml_param['image_rotations'],
                              "offsetX": camera_yaml_param['offsetX'],
                              "offsetY": camera_yaml_param['offsetY'],
                              "width": camera_yaml_param['width'],

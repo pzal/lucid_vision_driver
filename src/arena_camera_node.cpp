@@ -84,6 +84,11 @@ CameraSetting ArenaCameraNode::read_camera_settings()
   gain_range.set__from_value(0).set__to_value(42).set__step(1);
   gain_descriptor.integer_range = {gain_range};
 
+  auto rotation_descriptor = rcl_interfaces::msg::ParameterDescriptor{};
+  rcl_interfaces::msg::IntegerRange rotation_range;
+  rotation_range.set__from_value(0).set__to_value(3).set__step(1);
+  rotation_descriptor.integer_range = {rotation_range};
+
   CameraSetting camera_setting(
     declare_parameter<std::string>("camera_name"), declare_parameter<std::string>("frame_id"),
     declare_parameter<std::string>("pixel_format"),
@@ -103,6 +108,7 @@ CameraSetting ArenaCameraNode::read_camera_settings()
     declare_parameter<bool>("use_default_device_settings"),
     declare_parameter<bool>("image_horizontal_flip"),
     declare_parameter<bool>("image_vertical_flip"),
+    declare_parameter<int64_t>("image_rotations", rotation_descriptor),
     declare_parameter<int64_t>("offsetX"),
     declare_parameter<int64_t>("offsetY"),
     declare_parameter<int64_t>("width"),
@@ -276,6 +282,16 @@ rcl_interfaces::msg::SetParametersResult ArenaCameraNode::parameters_callback(
         m_arena_camera_handler->set_use_default_device_settings(param.as_bool());
         result.successful = true;
         print_status(param);
+      }
+    }
+
+    if (param.get_name() == "image_rotations") {
+      if (param.get_type() == rclcpp::ParameterType::PARAMETER_INTEGER) {
+        if (param.as_int() >= 0 && param.as_int() <= 3) {
+          m_arena_camera_handler->set_image_rotations(param.as_int());
+          result.successful = true;
+          print_status(param);
+        }
       }
     }
   }
