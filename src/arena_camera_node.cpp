@@ -71,7 +71,7 @@ CameraSetting ArenaCameraNode::read_camera_settings()
 {
   auto fps_descriptor = rcl_interfaces::msg::ParameterDescriptor{};
   rcl_interfaces::msg::IntegerRange fps_range;
-  fps_range.set__from_value(1).set__to_value(20).set__step(1);
+  fps_range.set__from_value(1).set__to_value(100).set__step(1);
   fps_descriptor.integer_range = {fps_range};
 
   auto auto_exposure_descriptor = rcl_interfaces::msg::ParameterDescriptor{};
